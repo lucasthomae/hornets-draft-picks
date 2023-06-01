@@ -1,0 +1,174 @@
+---
+title: "Data Interview"
+date: "06/02/2022"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+knit: (function(i, encoding) {apstyle::render(i, encoding)})
+---
+<!-- Timestamp: leave this in to automatically track when a file is rendered -->
+*Rendered at `r format(Sys.time(), '%I:%M %p, %b. %d, %Y')`*
+
+<!-- Contact info: leave author/reporter/editor contact info here -->
+*Firstname Lastname (<email@domain.com>)*
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+  )
+
+knitr::opts_knit$set(
+  root.dir = rprojroot::find_rstudio_root_file()
+  )
+```
+
+```{r initialize}
+# Load files, environment variables, libraries, etc. here
+library(tidyverse)
+library(ggplot2)
+library(apstyle)
+library(rvest)
+library(httr)
+
+charlotte_picks <- read_csv("./data/source/charlottepicks_bbref.csv")
+nola_picks <- read_csv("./data/source/nolapicks_bbref.csv")
+kidd_gilchrist <- read_csv("./data/source/mkg.csv")
+davis <- read_csv("./data/source/anthonydavis.csv")
+charlotte_seasons <- read_csv("./data/source/charlotte_seasons.csv")
+nola_seasons <- read_csv("./data/source/nola_seasons.csv")
+```
+
+```{r}
+charlotte_picks <-
+charlotte_picks[!grepl("\\(", charlotte_picks$Player), -1] %>%
+  select(-c("MP...9", "PTS...10", "TRB...11", "AST...12")) %>%
+  rename(
+    MPG = MP...16,
+    PPG = PTS...17,
+    RPG = TRB...18,
+    APG = AST...19
+  )
+
+head(charlotte_picks)
+```
+
+```{r}
+charlotte_picks %>%
+  group_by(Year) %>%
+  summarize(picks = n())
+```
+
+```{r}
+charlotte_picks %>%
+  group_by(College) %>%
+  summarize(picks = n()) %>%
+  arrange(desc(picks))
+```
+
+```{r}
+charlotte_picks %>%
+  arrange(desc(PPG))
+```
+
+```{r}
+nola_picks <-
+nola_picks[!grepl("\\(", nola_picks$Player), -1] %>%
+  select(-c("MP...9", "PTS...10", "TRB...11", "AST...12")) %>%
+  rename(
+    MPG = MP...16,
+    PPG = PTS...17,
+    RPG = TRB...18,
+    APG = AST...19
+  )
+
+head(nola_picks)
+```
+
+```{r}
+nola_picks %>%
+  arrange(desc(PPG))
+```
+
+```{r}
+charlotte_picks %>%
+  arrange(desc(VORP))
+```
+
+```{r}
+nola_picks %>%
+  arrange(desc(VORP))
+```
+
+```{r}
+charlotte_lottery <-
+GET("https://basketball.realgm.com/nba/teams/Charlotte-Hornets/3/Lottery-History") %>%
+  content(as = "text") %>%
+  read_html() %>%
+  html_elements('table') %>%
+  .[[3]] %>%
+  html_table() %>%
+  filter(Year >= 2005) %>%
+  rename('PreLottery' = 'Pre-Lottery Position',
+         'Change' = 'Pick Change') %>%
+  mutate(PreLottery = as.numeric(str_sub(PreLottery, end=-3)),
+         PreLottery2 = ifelse(Change==0, NA, PreLottery),
+         fill_color = ifelse(PreLottery2>Pick, "green", "red"),
+         line_stop = ifelse(PreLottery2>Pick, PreLottery2-0.25, PreLottery2+0.25)) %>%
+  select("Year", "Odds", "PreLottery", "Pick", "Change", "PreLottery2", "fill_color", "line_stop")
+
+charlotte_lottery
+```
+
+```{r}
+
+ggplot(charlotte_lottery) +
+  geom_segment(aes(x = Year, xend = Year, y = Pick, yend = line_stop),
+               linetype="dashed",
+                color = "darkgrey",
+               opacity=0.1) +
+  geom_point(aes(x=Year, y=Pick, size=3),
+             shape=21,
+             stroke=1.2,
+             fill="#00788C",
+             color="#1D1160") +
+  geom_point(aes(x=Year, y=PreLottery2, size=3, alpha=0.5),
+             shape=21,
+             stroke=1.2,
+             fill=charlotte_lottery$fill_color,
+             color="darkgrey") +
+  scale_x_continuous(
+    limits = c(2005, 2023),
+    breaks = seq(2005, 2023, 1),
+    name = NULL
+  ) +
+  scale_y_reverse(
+    limits = c(14, 1),
+    breaks = seq(14:1),
+    name = "Pick"
+  ) +
+  labs(
+    title = "Charlotte's Draft History",
+    subtitle = "Pre-Lottery Position versus Actual Pick",
+    caption = "Source: RealGM"
+  ) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5),
+        legend.position = "none",
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 14),
+        plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+```
+
+
+<!-- This section is for a tests code block -->
+
+```{r tests}
+# Leave this block of code at the end of the file
+# If a test fails it will stop the Rmd document from knitting
+# Run tests like so:
+# source("tests/etl_test.R")
+```

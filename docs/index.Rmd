@@ -130,9 +130,11 @@ ggplot(charlotte_seasons) +
         plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
 ```
 
-*draft picks*
+Woof. The Bobcats and Hornets 2.0 have had a total of four winning seasons and have made the playoffs thrice in 19 years. But naturally, that would mean the team has had plenty of chances in the draft to turn its prospects around? Not quite.
 
-*lottery explained*
+Each year, the 14 NBA teams that don't make the playoffs participate in a lottery system to decide placement in that year's draft. Many years, the Hornets have hovered close enough to .500 to not be in serious contention for a very high pick.
+
+Often, the cycle goes like this: The Hornets win between 30-40 games, they earn a pick somewhere in the 8-13 range, select a role player, and the next season they win another 30-40 games. A cycle of mediocrity.
 
 ```{r}
 ggplot(charlotte_lottery) +

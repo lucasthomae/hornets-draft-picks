@@ -1,6 +1,6 @@
 ---
-title: "Charlotte, New Orleans and the Ghost Hornets"
-subtitle: "North Carolina's NBA franchise can't seem to escape the sins of its past"
+title: "Charlotte, NOLA and the Ghost of the Hornets"
+subtitle: "Bad draft decisions and plain bad luck have haunted N.C.'s basketball franchise."
 date: "06/02/2022"
 output:
   html_document:
@@ -40,7 +40,7 @@ GET("https://basketball.realgm.com/nba/teams/Charlotte-Hornets/3/Lottery-History
   content(as = "text") %>%
   read_html() %>%
   html_elements('table') %>%
-  .[[3]] %>%
+  .[[1]] %>%
   html_table() %>%
   filter(Year >= 2005) %>%
   rename('PreLottery' = 'Pre-Lottery Position',
@@ -92,6 +92,20 @@ paul_cp3_points <- rbind(paul, felton)
 
 <!-- This section is for presenting the key takeaways and wire-ready content -->
 
+Earlier in May, the Charlotte Hornets did something that this iteration of the franchise has only done one other time: win the second pick in the NBA Draft.
+
+And while the second overall pick is by no means a disappointing lottery placement, its hard not to draw comparisons to the last time Charlotte found itself in this position back in 2012. Then, 19-year-old Anthony Davis, a seven-footer out of Kentucky, was considered the undisputed first pick. The Hornets just missed out on the generational talent and instead took Michael Kidd-Gilchrist at No. 2, who was largely seen as a bust.
+
+This time around, there's another agreed-upon No. 1 talent -- Victor Wembanyama. 
+
+The team was introduced in 1988 as the Charlotte Hornets, marking their entry into the National Basketball Association (NBA). The Hornets quickly gained popularity and developed a passionate fan base in Charlotte, North Carolina.
+
+However, in 2002, due to disagreements over a new arena, the franchise was relocated to New Orleans and became the New Orleans Hornets. This relocation left a void in Charlotte and left fans longing for the return of professional basketball to their city.
+
+In 2004, the NBA granted Charlotte another expansion franchise, and the team was named the Charlotte Bobcats. The Bobcats struggled to find success on the court, enduring several losing seasons. Nevertheless, the franchise underwent a significant ownership change in 2010 when NBA legend Michael Jordan became the majority owner.
+
+*nutgraf*
+
 ```{r}
 ggplot(charlotte_seasons) +
   geom_segment(aes(x = -Inf, xend = Inf, y = 0.5, yend = 0.5),
@@ -115,6 +129,10 @@ ggplot(charlotte_seasons) +
         plot.subtitle = element_text(size = 12),
         plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
 ```
+
+*draft picks*
+
+*lottery explained*
 
 ```{r}
 ggplot(charlotte_lottery) +
@@ -154,6 +172,12 @@ ggplot(charlotte_lottery) +
         plot.subtitle = element_text(size = 12),
         plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
 ```
+
+*analysis of lottery history*
+
+*2005 draft, Kemba, 2012 draft*
+
+*chris paul + raymond felton, VORP*
 
 ```{r}
 ggplot() +
@@ -227,13 +251,17 @@ ggplot() +
   
 ```
 
+*anthony davis + mkg*
+
+*beyond 2012, flip it forward to 2023*
+
 #### References
 
 <!-- This section is for including references to related material -->
 
 - Basketball Reference: [Charlotte Hornets](https://www.basketball-reference.com/teams/CHA/)
 
-- RealGM: [Charlotte Hornets NBA Draft Lottery History](https://www.theatlantic.com/family/archive/2021/08/amazon-alexa-popular-name/619794/)
+- RealGM: [Charlotte Hornets NBA Draft Lottery History](https://basketball.realgm.com/nba/teams/Charlotte-Hornets/3/Lottery-History)
 
 #### A Must Watch
 

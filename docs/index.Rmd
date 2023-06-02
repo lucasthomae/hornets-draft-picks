@@ -96,15 +96,15 @@ Earlier in May, the Charlotte Hornets did something that this iteration of the f
 
 And while the second overall pick is by no means a disappointing lottery placement, its hard not to draw comparisons to the last time Charlotte found itself in this position back in 2012. Then, 19-year-old Anthony Davis, a seven-footer out of Kentucky, was considered the undisputed first pick. The Hornets just missed out on the generational talent and instead took Michael Kidd-Gilchrist at No. 2, who was largely seen as a bust.
 
-This time around, there's another agreed-upon No. 1 talent -- Victor Wembanyama. 
+This time around, there's another agreed-upon No. 1 talent -- Victor Wembanyama. The seven-foot-two Frenchman has NBA executives drooling, while Alabama one-and-done Brandon Miller and Scoot Henderson of the G-League Ignite are in a battle for second place. The Hornets, trapped in a positive feedback loop of mediocrity, are in desperate need of star talent and will have to hope they don't swing and miss in the draft once again.
 
-The team was introduced in 1988 as the Charlotte Hornets, marking their entry into the National Basketball Association (NBA). The Hornets quickly gained popularity and developed a passionate fan base in Charlotte, North Carolina.
+But where did it all go wrong? The Hornets of the decades past were fun. They had 5-foot-3 phenom Muggsy Bogues and powerful forward Larry Johnson, and they were regulars in the playoffs despite never quite being able to overcome the Jordan Bulls and Ewing Knicks.
 
-However, in 2002, due to disagreements over a new arena, the franchise was relocated to New Orleans and became the New Orleans Hornets. This relocation left a void in Charlotte and left fans longing for the return of professional basketball to their city.
+Well, that Hornets franchise up and left for New Orleans in 2002. It'd be more accurate to link the winning history of the 1990s Hornets to the current New Orleans Pelicans than it would be to attribute it to the Charlotte Hornets of today.
 
-In 2004, the NBA granted Charlotte another expansion franchise, and the team was named the Charlotte Bobcats. The Bobcats struggled to find success on the court, enduring several losing seasons. Nevertheless, the franchise underwent a significant ownership change in 2010 when NBA legend Michael Jordan became the majority owner.
+The contemporary Hornets are more like ghastly apparition, taking the form of the old Charlotte franchise but not sharing in any of its history or winning tradition. In 2004, the NBA granted Charlotte another expansion franchise and the Bobcats were born. The only problem was that they sucked. Like, really bad.
 
-*nutgraf*
+Ahead of the 2014-15 season, New Orleans became the Pelicans while Charlotte took back its Hornets branding. But the name change didn't do much at all to bring back the team's winning ways. Let's take a look at how the team has fared since the 2004 expansion.
 
 ```{r}
 ggplot(charlotte_seasons) +

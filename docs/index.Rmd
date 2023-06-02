@@ -175,11 +175,13 @@ ggplot(charlotte_lottery) +
         plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
 ```
 
-*analysis of lottery history*
+Charlotte has bucked the trend a few times and landed a high pick, but even many of those instances are intertwined with disappointment. Take a look at the 2005 draft. The Bobcats were projected to have the No. 3 pick but they fell to No. 5 in the lottery and selected North Carolina point guard Raymond Felton.
 
-*2005 draft, Kemba, 2012 draft*
+Felton was certainly not a bad pick -- he played 15 seasons in the league and was a serviceable floor general. But none other than Chris Paul was taken one spot ahead of Felton, and, ironically, it was the New Orleans Hornets who landed the future Hall of Famer.
 
-*chris paul + raymond felton, VORP*
+We can compare the individual impact of a basketball player on his/her team using a metric called Wins Over Replacement (WORP). This metric takes into account box score plus/minus (BPM) and % of possessions played to estimate how many wins a player contributed to a team when compared to a replacement-level player.
+
+In his six seasons in New Orleans, Chris Paul contributed around extra 104 wins. Essentially, his WORP numbers say that when compared to a replacement-level player, the Hornets could expect to win an extra ~17.4 games because of Paul. Felton on the hand was just above average. He didn't move the needle too much in either direction.
 
 ```{r}
 ggplot() +

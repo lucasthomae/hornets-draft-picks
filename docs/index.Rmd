@@ -1,5 +1,6 @@
 ---
-title: "The Charlotte Hornets Suck at Drafting"
+title: "Charlotte, New Orleans and the Ghost of the Hornets"
+subtitle: "North Carolina's NBA franchise can't seem to escape the sins of its past"
 date: "06/02/2022"
 output:
   html_document:
@@ -129,7 +130,7 @@ ggplot(charlotte_lottery) +
     name = "Pick"
   ) +
   labs(
-    title = "Charlotte's Draft History",
+    title = "Charlotte's Draft Lottery History",
     subtitle = "Pre-Lottery Position versus Actual Pick",
     caption = "Source: RealGM"
   ) +

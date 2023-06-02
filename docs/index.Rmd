@@ -5,8 +5,7 @@ date: "06/02/2022"
 output:
   html_document:
     output_dir: "./docs"
-    toc: true
-    toc_float: true
+    toc: false
     df_print: paged
 ---
 <!-- Timestamp: leave this in to automatically track when a file is rendered -->
@@ -73,6 +72,22 @@ kidd_gilchrist <-
 
 davis_mkg_points <- rbind(davis, kidd_gilchrist)
 
+paul <-
+  read_csv("./data/source/paul.csv") %>%
+  mutate(WARP = VORP * 2.7,
+         SeasonNum = as.numeric(str_sub(Season, end=-4)),
+         Name = "Chris Paul") %>%
+  select("Name", "Season", "WARP", "SeasonNum")
+
+felton <-
+  read_csv("./data/source/felton.csv") %>%
+  mutate(WARP = VORP * 2.7,
+         SeasonNum = as.numeric(str_sub(Season, end=-4)),
+         Name = "Raymond Felton") %>%
+  select("Name", "Season", "WARP", "SeasonNum")
+
+paul_cp3_points <- rbind(paul, felton)
+
 ```
 
 <!-- This section is for presenting the key takeaways and wire-ready content -->
@@ -138,6 +153,42 @@ ggplot(charlotte_lottery) +
         plot.title = element_text(face = "bold", size = 18),
         plot.subtitle = element_text(size = 12),
         plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+```
+
+```{r}
+ggplot() +
+  geom_segment(aes(x = -Inf, xend = Inf, y = 0, yend = 0),
+               linetype="dashed",
+                color = "black") +
+  geom_line(data=paul,
+            aes(x=SeasonNum, y=WARP),
+            color="#1D8CAB",
+            size=1.1) +
+  geom_line(data=felton,
+            aes(x=SeasonNum, y=WARP),
+            color="#fb5b13",
+            size=1.1) +
+  geom_point(data=paul_cp3_points,
+             aes(x=SeasonNum, y=WARP, color=Name)) +
+  scale_color_manual(values = c("#1D8CAB", "#fb5b13"),
+                    labels = c("Paul", "Felton"),
+                    name = "Player") +
+  scale_x_continuous(breaks = paul$SeasonNum,
+                     labels = paul$Season) +
+  scale_y_continuous(limits = c(-3, 27),
+                     breaks = seq(-3, 27, 5),
+                     name = "Wins Over Replacement") +
+  labs(
+    title = "The One That Got Away",
+    subtitle = "Wake Forest star Chris Paul made an instant impact in New Orleans",
+    caption = "Source: basketball-reference.com") +
+  theme_classic() +
+  theme(axis.text.x = element_text(vjust=0.5),
+        axis.title.x = element_blank(),
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+
 ```
 
 ```{r}

@@ -236,8 +236,8 @@ ggplot() +
                      breaks = seq(-5, 20, 5),
                      name = "Wins Over Replacement") +
   labs(
-    title = "The Anthony Davis / Michael Kidd-Gilchrist Fiasco",
-    subtitle = "Davis became a much more valuable player than his former college teammate.",
+    title = "The Anthony Davis / MKG Fiasco",
+    subtitle = "Anthony Davis lived up to the hype, but No. 2 pick Michael Kidd-Gilchrist struggled.",
     caption = "Source: basketball-reference.com") +
   theme_classic() +
   theme(axis.text.x = element_text(vjust=0.5),
@@ -291,7 +291,7 @@ ggplot() +
                      name = "Wins Over Replacement") +
   labs(
     title = "The One That Got Away",
-    subtitle = "Wake Forest star Chris Paul made an instant impact in New Orleans",
+    subtitle = "As Chris Paul became a star for New Orleans, Raymond Felton plateaued.",
     caption = "Source: basketball-reference.com") +
   theme_classic() +
   theme(axis.text.x = element_text(vjust=0.5),

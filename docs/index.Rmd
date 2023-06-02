@@ -171,7 +171,7 @@ ggplot() +
   geom_point(data=paul_cp3_points,
              aes(x=SeasonNum, y=WARP, color=Name)) +
   scale_color_manual(values = c("#1D8CAB", "#fb5b13"),
-                    labels = c("Paul", "Felton"),
+                    labels = c("C. Paul", "R. Felton"),
                     name = "Player") +
   scale_x_continuous(breaks = paul$SeasonNum,
                      labels = paul$Season) +
@@ -180,7 +180,7 @@ ggplot() +
                      name = "Wins Over Replacement") +
   labs(
     title = "The One That Got Away",
-    subtitle = "Wake Forest star Chris Paul made an instant impact in New Orleans",
+    subtitle = "As Raymond Felton plateaued, N.C. native Chris Paul became a star for New Orleans.",
     caption = "Source: basketball-reference.com") +
   theme_classic() +
   theme(axis.text.x = element_text(vjust=0.5),
@@ -207,7 +207,7 @@ ggplot() +
   geom_point(data=davis_mkg_points,
              aes(x=SeasonNum, y=WARP, color=Name)) +
   scale_color_manual(values = c("gold2", "#00788C"),
-                    labels = c("Davis", "Kidd-Gilchrist"),
+                    labels = c("A. Davis", "M. Kidd-Gilchrist"),
                     name = "Player") +
   scale_x_continuous(breaks = davis$SeasonNum,
                      labels = davis$Season) +
@@ -215,8 +215,8 @@ ggplot() +
                      breaks = seq(-5, 20, 5),
                      name = "Wins Over Replacement") +
   labs(
-    title = "The Anthony Davis / Michael Kidd-Gilchrist Fiasco",
-    subtitle = "Davis became a much more valuable player than his former college teammate.",
+    title = "The Michael Kidd-Gilchrist Disaster",
+    subtitle = "No. 1 pick Anthony Davis fared much better in the NBA than his college teammate.",
     caption = "Source: basketball-reference.com") +
   theme_classic() +
   theme(axis.text.x = element_text(vjust=0.5),

@@ -219,6 +219,14 @@ ggplot() +
 
 ```
 
+That wouldn't be the only time New Orleans got the best of Charlotte in the draft. Let's return to 2012 and take a closer look at one of the bigger what-ifs in Charlotte history.
+
+The 2011-12 Bobcats made history as the worst NBA team of all time. They won just seven games in a lockout-shortened season and their winning .106 percentage was almost unfathomable. So the Hornets went into the 2012 draft lottery with the highest odds (25%) of winning the Anthony Davis sweepstakes.
+
+The 2011-12 New Orleans Hornets were also bad, but they still won three times as many games as the Bobcats that season and held the fourth-best odds (13.7%) of winning the No. 1 pick. But because Charlotte appears to be perpetually cursed by the franchise they let walk in 2002, New Orleans stuck it to the Bobcats once more.
+
+The Wins Over Replacement numbers for Davis and Kidd-Gilchrist can tell the rest of the story on their own.
+
 ```{r}
 ggplot() +
   geom_segment(aes(x = -Inf, xend = Inf, y = 0, yend = 0),
@@ -255,9 +263,11 @@ ggplot() +
   
 ```
 
-*anthony davis + mkg*
+Anthony Davis appeared to be a sure thing, and other than a few injury-riddled seasons that has mostly been true over the course of his career. During his seven seasons in New Orleans, Davis contributed an estimated ~12.6 wins per season when compared to a replacement-level player.
 
-*beyond 2012, flip it forward to 2023*
+Michael Kidd-Gilchrist's numbers tell a different story. He also played seven seasons for the team that drafted him and made almost no impact during that time. His WORP numbers in Charlotte add up to 2.4 wins. Divide that across seven seasons and you get essentially zero added wins from season to season. Charlotte's lone No. 2 draft pick in its history was a bust through and through.
+
+On June 22 the Hornets will have a chance to change that history when they make the second selection in the 2023 NBA Draft. Will they finally land the superstar they've been hoping for? Only time will tell. But there is one thing that should comfort the Charlotte front office -- It's not New Orleans picking ahead of them.
 
 #### References
 

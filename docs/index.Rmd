@@ -1,5 +1,5 @@
 ---
-title: "Charlotte, New Orleans and the Ghost of the Hornets"
+title: "Charlotte, New Orleans and the Ghost Hornets"
 subtitle: "North Carolina's NBA franchise can't seem to escape the sins of its past"
 date: "06/02/2022"
 output:
@@ -74,8 +74,6 @@ kidd_gilchrist <-
 davis_mkg_points <- rbind(davis, kidd_gilchrist)
 
 ```
-
-## Feature Story
 
 <!-- This section is for presenting the key takeaways and wire-ready content -->
 

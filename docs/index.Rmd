@@ -30,34 +30,152 @@ knitr::opts_knit$set(
 # Load files, environment variables, libraries, etc. here
 library(tidyverse)
 library(apstyle)
-library(DT)
+library(ggplot2)
+library(apstyle)
+library(rvest)
+library(httr)
+
+charlotte_lottery <-
+GET("https://basketball.realgm.com/nba/teams/Charlotte-Hornets/3/Lottery-History") %>%
+  content(as = "text") %>%
+  read_html() %>%
+  html_elements('table') %>%
+  .[[3]] %>%
+  html_table() %>%
+  filter(Year >= 2005) %>%
+  rename('PreLottery' = 'Pre-Lottery Position',
+         'Change' = 'Pick Change') %>%
+  mutate(PreLottery = as.numeric(str_sub(PreLottery, end=-3)),
+         PreLottery2 = ifelse(Change==0, NA, PreLottery),
+         fill_color = ifelse(PreLottery2>Pick, "green", "red"),
+         line_stop = ifelse(PreLottery2>Pick, PreLottery2-0.3, PreLottery2+0.3)) %>%
+  select("Year", "Odds", "PreLottery", "Pick", "Change", "PreLottery2", "fill_color", "line_stop")
+
+charlotte_seasons <-
+  read_csv("./data/source/charlotte_seasons.csv") %>%
+  rename('WinPercent' = 'W/L%') %>%
+  select("Season", "Team", "W", "L", "WinPercent")
+
+davis <-
+  read_csv("./data/source/anthonydavis.csv") %>%
+  mutate(WARP = VORP * 2.7,
+         SeasonNum = as.numeric(str_sub(Season, end=-4)),
+         Name = "Anthony Davis") %>%
+  select("Name", "Season", "WARP", "SeasonNum")
+
+kidd_gilchrist <-
+  read_csv("./data/source/mkg.csv") %>%
+  mutate(WARP = VORP * 2.7,
+         SeasonNum = as.numeric(str_sub(Season, end=-4)),
+         Name = "Michael Kidd-Gilchrist") %>%
+  select("Name", "Season", "WARP", "SeasonNum")
+
+davis_mkg_points <- rbind(davis, kidd_gilchrist)
+
 ```
 
 ## Feature Story
 
 <!-- This section is for presenting the key takeaways and wire-ready content -->
 
-Anytime the Cascianos call for their daughter inside their home, a cacophony of robotic voices is set off. That’s been the norm ever since the Somer, N.Y. family bought an Amazon Echo smart speaker years ago.
+```{r}
+ggplot(charlotte_seasons) +
+  geom_segment(aes(x = -Inf, xend = Inf, y = 0.5, yend = 0.5),
+               linetype="dashed",
+                color = "darkgrey") +
+  geom_col(aes(x=Season, y=WinPercent),
+           fill="#00788C",
+           color="#1D1160") +
+  scale_y_continuous(
+    limits = c(0, 1),
+    breaks = seq(0, 1, .1),
+    name = "Winning Percentage") +
+  labs(
+    title = "Charlotte's Not-so-Winning Tradition",
+    subtitle = "The Bobcats/Hornets have had very few winning seasons since 2005",
+    caption = "Source: basketball-reference.com") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5),
+        axis.title.x = element_blank(),
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+```
 
-“I hate the Alexa,” recent UNC Chapel Hill graduate Alexa Casciano said. “Every time my family talks to me all the Alexas in the house will go off.”
+```{r}
+ggplot(charlotte_lottery) +
+  geom_segment(aes(x = Year, xend = Year, y = Pick, yend = line_stop),
+               linetype="dashed",
+                color = "darkgrey",
+               opacity=0.1) +
+  geom_point(aes(x=Year, y=Pick, size=3),
+             shape=21,
+             stroke=1.2,
+             fill="#00788C",
+             color="#1D1160") +
+  geom_point(aes(x=Year, y=PreLottery2, size=3, alpha=0.5),
+             shape=21,
+             stroke=1.2,
+             fill=charlotte_lottery$fill_color,
+             color="darkgrey") +
+  scale_x_continuous(
+    limits = c(2005, 2023),
+    breaks = seq(2005, 2023, 1),
+    name = NULL
+  ) +
+  scale_y_reverse(
+    limits = c(14, 1),
+    breaks = seq(14:1),
+    name = "Pick"
+  ) +
+  labs(
+    title = "Charlotte's Draft History",
+    subtitle = "Pre-Lottery Position versus Actual Pick",
+    caption = "Source: RealGM"
+  ) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5),
+        legend.position = "none",
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+```
 
-Casciano is not the only Alexa to feel this way. In 2021, the Washington Post published an op-ed titled [Amazon, can we have our name back?](https://www.washingtonpost.com/technology/interactive/2021/people-named-alexa-name-change-amazon/) 
-
-Since Amazon introduced its virtual assistant technology in November 2014, fewer and fewer Americans are naming their newborn girls Alexa.
-
-In fact, Alexa is the most rapidly declining girls name of the last ten years according to an analysis using the latest data from the Social Security Administration. Alexis and Alexia have also seen sharp decreases in that timeframe.
-
-American naming culture is often very reactive to current events and trending topics. Similar drop offs were seen with the names Katrina in 2006 and Isis in 2015.
-
-The fastest growing baby names can also glean insight into what Americans care about. Dutton and Kayce, two names taken from the popular Paramount series Yellowstone, were the first and third fastest growing boys names of the last five years.
-
-Amiri was the fastest growing girls name and also the second fastest growing boys name, which likely is connected to ascendant fashion designer Mike Amiri. And Ermias, the fourth fastest growing boys name, was the real name of hip hop artist Nipsey Hussle, who was murdered in 2019.
-
-The one-year data seems to be more random simply because of the small sample size, but at least one rapidly growing name from 2022 seems to have a clear explanation. Debanhi was the fastest growing name by a long shot last year, increasing by a rate of over 1,100 percent.
-
-That growth is almost certainly related to Debanhi Escobar, an 18-year-old Mexican law student who was murdered in April 2022. Escobar’s death roused demonstrators across Mexico, who marched in remembrance of the thousands of women who have gone missing in the country.
-
-According to names.org, the name Debanhi is of Mexican origin and means “Eternal God bless our daughter.”
+```{r}
+ggplot() +
+  geom_segment(aes(x = -Inf, xend = Inf, y = 0, yend = 0),
+               linetype="dashed",
+                color = "black") +
+  geom_line(data=davis,
+            aes(x=SeasonNum, y=WARP),
+            color="gold2",
+            size=1.1) +
+  geom_line(data=kidd_gilchrist,
+            aes(x=SeasonNum, y=WARP),
+            color="#00788C",
+            size=1.1) +
+  geom_point(data=davis_mkg_points,
+             aes(x=SeasonNum, y=WARP, color=Name)) +
+  scale_color_manual(values = c("gold2", "#00788C"),
+                    labels = c("Davis", "Kidd-Gilchrist"),
+                    name = "Player") +
+  scale_x_continuous(breaks = davis$SeasonNum,
+                     labels = davis$Season) +
+  scale_y_continuous(limits = c(-5, 20),
+                     breaks = seq(-5, 20, 5),
+                     name = "Wins Over Replacement") +
+  labs(
+    title = "The Anthony Davis / Michael Kidd-Gilchrist Fiasco",
+    subtitle = "Davis became a much more valuable player than his former college teammate.",
+    caption = "Source: basketball-reference.com") +
+  theme_classic() +
+  theme(axis.text.x = element_text(vjust=0.5),
+        axis.title.x = element_blank(),
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+  
+```
 
 ## References
 

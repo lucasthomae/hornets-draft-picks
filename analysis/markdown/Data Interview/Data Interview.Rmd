@@ -117,14 +117,13 @@ GET("https://basketball.realgm.com/nba/teams/Charlotte-Hornets/3/Lottery-History
   mutate(PreLottery = as.numeric(str_sub(PreLottery, end=-3)),
          PreLottery2 = ifelse(Change==0, NA, PreLottery),
          fill_color = ifelse(PreLottery2>Pick, "green", "red"),
-         line_stop = ifelse(PreLottery2>Pick, PreLottery2-0.25, PreLottery2+0.25)) %>%
+         line_stop = ifelse(PreLottery2>Pick, PreLottery2-0.3, PreLottery2+0.3)) %>%
   select("Year", "Odds", "PreLottery", "Pick", "Change", "PreLottery2", "fill_color", "line_stop")
 
 charlotte_lottery
 ```
 
 ```{r}
-
 ggplot(charlotte_lottery) +
   geom_segment(aes(x = Year, xend = Year, y = Pick, yend = line_stop),
                linetype="dashed",
@@ -159,8 +158,128 @@ ggplot(charlotte_lottery) +
   theme(axis.text.x = element_text(angle = 45, vjust=0.5),
         legend.position = "none",
         plot.title = element_text(face = "bold", size = 18),
-        plot.subtitle = element_text(size = 14),
+        plot.subtitle = element_text(size = 12),
         plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+```
+
+```{r}
+charlotte_seasons <-
+charlotte_seasons %>%
+  rename('WinPercent' = 'W/L%') %>%
+  select("Season", "Team", "W", "L", "WinPercent")
+```
+
+
+```{r}
+ggplot(charlotte_seasons) +
+  geom_segment(aes(x = -Inf, xend = Inf, y = 0.5, yend = 0.5),
+               linetype="dashed",
+                color = "darkgrey") +
+  geom_col(aes(x=Season, y=WinPercent),
+           fill="#00788C",
+           color="#1D1160") +
+  scale_y_continuous(
+    limits = c(0, 1),
+    breaks = seq(0, 1, .1),
+    name = "Winning Percentage") +
+  labs(
+    title = "Charlotte's Not-so-Winning Tradition",
+    subtitle = "The Bobcats/Hornets have had very few winning seasons since 2005",
+    caption = "Source: basketball-reference.com") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5),
+        axis.title.x = element_blank(),
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+```
+
+```{r}
+davis <-
+davis %>%
+  mutate(WARP = VORP * 2.7,
+         SeasonNum = as.numeric(str_sub(Season, end=-4)),
+         Name = "Anthony Davis") %>%
+  select("Name", "Season", "WARP", "SeasonNum")
+
+kidd_gilchrist <-
+kidd_gilchrist %>%
+  mutate(WARP = VORP * 2.7,
+         SeasonNum = as.numeric(str_sub(Season, end=-4)),
+         Name = "Michael Kidd-Gilchrist") %>%
+  select("Name", "Season", "WARP", "SeasonNum")
+
+davis_mkg_points <- rbind(davis, kidd_gilchrist)
+```
+
+```{r}
+ggplot() +
+  geom_segment(aes(x = -Inf, xend = Inf, y = 0, yend = 0),
+               linetype="dashed",
+                color = "black") +
+  geom_line(data=davis,
+            aes(x=SeasonNum, y=WARP),
+            color="gold2",
+            size=1.1) +
+  geom_line(data=kidd_gilchrist,
+            aes(x=SeasonNum, y=WARP),
+            color="#00788C",
+            size=1.1) +
+  geom_point(data=davis_mkg_points,
+             aes(x=SeasonNum, y=WARP, color=Name)) +
+  scale_color_manual(values = c("gold2", "#00788C"),
+                    labels = c("Davis", "Kidd-Gilchrist"),
+                    name = "Player") +
+  scale_x_continuous(breaks = davis$SeasonNum,
+                     labels = davis$Season) +
+  scale_y_continuous(limits = c(-5, 20),
+                     breaks = seq(-5, 20, 5),
+                     name = "Wins Over Replacement") +
+  labs(
+    title = "The Anthony Davis / Michael Kidd-Gilchrist Fiasco",
+    subtitle = "Davis became a much more valuable player than his former college teammate.",
+    caption = "Source: basketball-reference.com") +
+  theme_classic() +
+  theme(axis.text.x = element_text(vjust=0.5),
+        axis.title.x = element_blank(),
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        plot.caption = element_text(color="darkgrey", hjust=0, vjust=0.5))
+  
+```
+
+```{r}
+ggplot() +
+  geom_segment(aes(x = -Inf, xend = Inf, y = 0, yend = 0),
+               linetype = "dashed",
+               color = "black") +
+  geom_line(data = davis,
+            aes(x = SeasonNum, y = WARP, color = "Anthony Davis"),
+            size = 1.1) +
+  geom_line(data = kidd_gilchrist,
+            aes(x = SeasonNum, y = WARP, color = "Michael Kidd-Gilchrist"),
+            size = 1.1) +
+  scale_x_continuous(breaks = davis$SeasonNum,
+                     labels = davis$Season) +
+  scale_y_continuous(limits = c(-5, 20),
+                     breaks = seq(-5, 20, 5)) +
+  labs(
+    title = "The Anthony Davis / Michael Kidd-Gilchrist Fiasco",
+    subtitle = "Davis became a much more valuable player than his former college teammate.",
+    caption = "Source: basketball-reference.com",
+    ylab = "Wins Over Replacement") +
+  scale_color_manual(values = c("gold2" = "gold2", "#00788C" = "#00788C"),
+                     labels = c("Anthony Davis", "Michael Kidd-Gilchrist")) +
+  theme_classic() +
+  theme(axis.text.x = element_text(vjust = 0.5),
+        plot.title = element_text(face = "bold", size = 18),
+        plot.subtitle = element_text(size = 12),
+        plot.caption = element_text(color = "darkgrey", hjust = 0, vjust = 0.5))
+
+```
+
+```{r}
+
 ```
 
 

@@ -227,17 +227,17 @@ ggplot() +
   
 ```
 
-## References
+#### References
 
 <!-- This section is for including references to related material -->
 
-- Social Security Administration: Popular Baby Names: https://www.ssa.gov/oact/babynames/index.html
+- Basketball Reference: [Charlotte Hornets](https://www.basketball-reference.com/teams/CHA/)
 
-- The Atlantic: Amazon Killed the Name Alexa: https://www.theatlantic.com/family/archive/2021/08/amazon-alexa-popular-name/619794/
+- RealGM: [Charlotte Hornets NBA Draft Lottery History](https://www.theatlantic.com/family/archive/2021/08/amazon-alexa-popular-name/619794/)
 
-- Quartz: A baby name expert says Isis is one of the fastest-falling names of all time: https://qz.com/868244/the-baby-name-isis-is-one-of-the-fastest-falling-names-of-all-time
+#### A Must Watch
 
-- CBS News: Law student whose body was found in motel water tank was suffocated, Mexican authorities say: https://www.cbsnews.com/news/debanhi-escobar-law-student-body-motel-water-tank-suffocated-mexico-third-autopsy/
+- Secret Base: [The People You're Paying to Be in Shorts | Dorktown](https://www.youtube.com/watch?v=F3_whi6KuLo)
 
 <!-- This section is for a tests code block -->
 
